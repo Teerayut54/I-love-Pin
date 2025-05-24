@@ -15,29 +15,33 @@
       overflow: hidden;
       position: relative;
     }
-    #cat-img { width: 200px; margin-bottom: 20px; }
+    #cat-img { width: 40vw; max-width: 200px; margin-bottom: 20px; }
     h1 {
-      font-size: 2em;
+      font-size: 1.8em;
       color: #ff3399;
       margin-bottom: 30px;
       text-align: center;
+      padding: 0 10px;
     }
     .button-container {
       position: relative;
       width: 100%;
       height: 150px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
     }
     button {
-      padding: 10px 25px;
+      padding: 10px 20px;
       font-size: 16px;
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      position: absolute;
       transition: 0.2s;
     }
-    #yesBtn { background-color: #4CAF50; color: white; left: 40%; top: 0; }
-    #noBtn { background-color: #f44336; color: white; left: 55%; top: 0; }
+    #yesBtn { background-color: #4CAF50; color: white; }
+    #noBtn { background-color: #f44336; color: white; position: absolute; }
     #overlay, #monthOverlay {
       display: none;
       position: fixed;
@@ -52,6 +56,7 @@
       padding: 20px;
       z-index: 10;
       flex-direction: row;
+      flex-wrap: wrap;
     }
     .balloon-char {
       display: inline-block;
@@ -80,7 +85,7 @@
       100% { transform: translateX(-50%) translateY(-200px); opacity: 0; }
     }
     #monthBtn {
-      margin-top: 50px;
+      margin-top: 30px;
       padding: 10px 25px;
       font-size: 1.2em;
       background-color: #ff69b4;
@@ -114,6 +119,11 @@
     @keyframes fadeIn {
       to { opacity: 1; }
     }
+    @media (max-width: 600px) {
+      h1 { font-size: 1.4em; }
+      #monthMessage { font-size: 1.2em; }
+      .button-container { flex-direction: column; height: auto; }
+    }
   </style>
 </head>
 <body>
@@ -121,7 +131,7 @@
   <audio id="monthMusic" src="https://cdn.pixabay.com/download/audio/2021/11/24/audio_5b9f6a0ba0.mp3?filename=romantic-piano-10343.mp3"></audio>
 
   <img id="cat-img" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="cute white cat"/>
-  <h1>Will you be mine forever?</h1>
+  <h1>Do you love me?</h1>
   <div class="button-container">
     <button id="yesBtn">Yes</button>
     <button id="noBtn">No</button>
@@ -129,7 +139,7 @@
 
   <div id="overlay"></div>
   <div id="monthOverlay">
-    <div id="monthMessage">💖 Happy 9 months, my love!<br>Every moment with you has been a treasure.<br>Thank you for making my world brighter. I love you my love. 💗</div>
+    <div id="monthMessage">💖 Happy 9 months, my love!<br>Every moment with you has been a treasure.<br>Thank you for making my world brighter. I love you. 💗</div>
   </div>
   <button id="monthBtn">9 M</button>
 
