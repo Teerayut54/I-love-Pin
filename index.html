@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Anniversary My Love</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html {
+      width: 100%; height: 100%;
+      font-family: 'Arial', sans-serif;
+      background-color: #fff0f5;
+      display: flex; flex-direction: column;
+      justify-content: center; align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+    #cat-img { width: 200px; margin-bottom: 20px; }
+    h1 {
+      font-size: 2em;
+      color: #ff3399;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .button-container {
+      position: relative;
+      width: 100%;
+      height: 150px;
+    }
+    button {
+      padding: 10px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      position: absolute;
+      transition: 0.2s;
+    }
+    #yesBtn { background-color: #4CAF50; color: white; left: 40%; top: 0; }
+    #noBtn { background-color: #f44336; color: white; left: 55%; top: 0; }
+    #overlay, #monthOverlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background-color: black;
+      color: white;
+      font-size: 2.5em;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      z-index: 10;
+      flex-direction: row;
+    }
+    .balloon-char {
+      display: inline-block;
+      position: relative;
+      margin: 0 2px;
+      opacity: 0;
+      animation: balloonUp 1.5s ease-out forwards;
+    }
+    .balloon-char::before {
+      content: "🎀";
+      position: absolute;
+      top: -40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 1em;
+      opacity: 1;
+      animation: floatAway 3s ease-in forwards;
+      animation-delay: 1.5s;
+    }
+    @keyframes balloonUp {
+      0% { opacity: 0; transform: translateY(50px); }
+      100% { opacity: 1; transform: translateY(-20px); }
+    }
+    @keyframes floatAway {
+      0% { transform: translateX(-50%) translateY(0); opacity: 1; }
+      100% { transform: translateX(-50%) translateY(-200px); opacity: 0; }
+    }
+    #monthBtn {
+      margin-top: 50px;
+      padding: 10px 25px;
+      font-size: 1.2em;
+      background-color: #ff69b4;
+      border: none;
+      border-radius: 10px;
+      color: white;
+      display: none;
+      cursor: pointer;
+      z-index: 11;
+    }
+    .flower, .heart {
+      position: absolute;
+      font-size: 24px;
+      animation: fall 5s linear infinite;
+      pointer-events: none;
+    }
+    .flower { color: #ff69b4; }
+    .heart { color: red; z-index: 12; }
+    @keyframes fall {
+      0% { transform: translateY(-50px); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
+    }
+    #monthMessage {
+      font-size: 1.5em;
+      text-align: center;
+      color: pink;
+      opacity: 0;
+      animation: fadeIn 2s ease-in forwards;
+      animation-delay: 1s;
+    }
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <audio id="bgMusic" src="https://cdn.pixabay.com/download/audio/2023/03/14/audio_fdf9de96e6.mp3?filename=romantic-day-143468.mp3" autoplay loop></audio>
+  <audio id="monthMusic" src="https://cdn.pixabay.com/download/audio/2021/11/24/audio_5b9f6a0ba0.mp3?filename=romantic-piano-10343.mp3"></audio>
+
+  <img id="cat-img" src="https://media.giphy.com/media/JIX9t2j0ZTN9S/giphy.gif" alt="cute white cat"/>
+  <h1>Will you be mine forever?</h1>
+  <div class="button-container">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <div id="overlay"></div>
+  <div id="monthOverlay">
+    <div id="monthMessage">💖 Happy 9 months, my love!<br>Every moment with you has been a treasure.<br>Thank you for making my world brighter. I love you my love. 💗</div>
+  </div>
+  <button id="monthBtn">9 M</button>
+
+  <audio id="yesSound" src="https://www.soundjay.com/human/sounds/kiss-01a.mp3"></audio>
+  <audio id="noSound" src="https://www.soundjay.com/button/sounds/button-14.mp3"></audio>
+
+  <script>
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const overlay = document.getElementById('overlay');
+    const monthOverlay = document.getElementById('monthOverlay');
+    const monthMessage = document.getElementById('monthMessage');
+    const yesSound = document.getElementById('yesSound');
+    const noSound = document.getElementById('noSound');
+    const monthBtn = document.getElementById('monthBtn');
+    const monthMusic = document.getElementById('monthMusic');
+
+    function createFlower() {
+      const flower = document.createElement('div');
+      flower.classList.add('flower');
+      flower.innerText = '🌸';
+      flower.style.left = Math.random() * window.innerWidth + 'px';
+      flower.style.fontSize = (Math.random() * 10 + 20) + 'px';
+      flower.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.body.appendChild(flower);
+      setTimeout(() => flower.remove(), 5000);
+    }
+    setInterval(createFlower, 300);
+
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '❤️';
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      heart.style.fontSize = (Math.random() * 10 + 20) + 'px';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+
+    yesBtn.addEventListener('click', () => {
+      document.body.style.backgroundColor = "black";
+      overlay.style.display = "flex";
+      document.getElementById('cat-img').style.display = 'none';
+      document.querySelector('h1').style.display = 'none';
+      document.querySelector('.button-container').style.display = 'none';
+      yesSound.play();
+      overlay.innerHTML = '';
+      const message = "I’ve always loved you 💞";
+      [...message].forEach((char, index) => {
+        const span = document.createElement('span');
+        span.className = 'balloon-char';
+        span.innerText = char;
+        span.style.animationDelay = `${index * 0.2}s`;
+        overlay.appendChild(span);
+      });
+      setTimeout(() => { monthBtn.style.display = 'block'; }, message.length * 200 + 1500);
+    });
+
+    noBtn.addEventListener('click', () => {
+      noSound.currentTime = 0;
+      noSound.play();
+      const bodyWidth = window.innerWidth;
+      const bodyHeight = window.innerHeight;
+      const btnWidth = noBtn.offsetWidth;
+      const btnHeight = noBtn.offsetHeight;
+      let offsetX = (Math.random() - 0.5) * 150;
+      let offsetY = (Math.random() - 0.5) * 150;
+      let newX = noBtn.offsetLeft + offsetX;
+      let newY = noBtn.offsetTop + offsetY;
+      newX = Math.max(0, Math.min(bodyWidth - btnWidth, newX));
+      newY = Math.max(0, Math.min(bodyHeight - btnHeight, newY));
+      noBtn.style.left = `${newX}px`;
+      noBtn.style.top = `${newY}px`;
+    });
+
+    monthBtn.addEventListener('click', () => {
+      overlay.style.display = 'none';
+      monthOverlay.style.display = 'flex';
+      document.body.style.backgroundColor = 'black';
+      monthBtn.style.display = 'none';
+      monthMusic.play();
+      setInterval(createHeart, 300);
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
